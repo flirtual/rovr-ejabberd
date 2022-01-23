@@ -49,7 +49,7 @@ log_rotate_count: 0
 ##   - "example.com"
 ##   - "example.org"
 hosts:
-  - "chat.rovrapp.com"
+  - "chat.example.com"
 
 ## TLS configuration
 define_macro:
@@ -102,20 +102,12 @@ listen:
     tls: true
     protocol_options: 'TLS_OPTIONS'
   -
-    port: 5269
-    ip: "::"
-    module: ejabberd_s2s_in
-    max_stanza_size: 524288
-  -
     port: 5443
     ip: "::"
     module: ejabberd_http
     request_handlers:
       "/api": mod_http_api
-      "/bosh": mod_bosh
       "/ws": ejabberd_http_ws
-    ## captcha: true
-    ## register: true
     tls: true
     protocol_options: 'TLS_OPTIONS'
   -
@@ -225,6 +217,9 @@ modules:
   mod_announce:
     access: announce
   mod_avatar: {}
+  mod_block_strangers:
+    allow_local_users: false
+    allow_transports: false
   mod_blocking: {}
   mod_bosh: {}
   mod_caps: {}
@@ -284,6 +279,7 @@ modules:
     ## https://github.com/ge0rg/jabber-spam-fighting-manifesto
     ip_access: trusted_network
   mod_roster:
+    access: deny
     versioning: true
   mod_s2s_dialback: {}
   mod_shared_roster: {}
@@ -298,4 +294,4 @@ modules:
 ### Local Variables:
 ### mode: yaml
 ### End:
-### vim: set filetype=yaml tabstop=2
+### vim: set filetype=yaml tabstop=8
